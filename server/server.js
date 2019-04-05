@@ -14,6 +14,10 @@ var server = http_1.default.createServer(app);
 var io = socket_io_1.default(server);
 io.on('connection', function (socket) {
     console.log('New user connected');
+    socket.emit('newMessage', { from: 'jorge', text: 'Dummy text', createdAt: 123 });
+    socket.on('createMessage', function (message) {
+        console.log('createMessage', message);
+    });
     socket.on('disconnect', function () {
         console.log('User was disconnected');
     });
