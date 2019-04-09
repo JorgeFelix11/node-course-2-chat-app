@@ -7,40 +7,16 @@ var path_1 = __importDefault(require("path"));
 var express_1 = __importDefault(require("express"));
 var socket_io_1 = __importDefault(require("socket.io"));
 var http_1 = __importDefault(require("http"));
+var message_1 = require("./utils/message");
 var app = express_1.default();
 var port = process.env.PORT || 3000;
 var publicPath = path_1.default.join(__dirname, '../public');
 var server = http_1.default.createServer(app);
 var io = socket_io_1.default(server);
 io.on('connection', function (socket) {
-    console.log('New user connected');
-    // socket.emit ('newMessage', {from: 'jorge', text: 'Dummy text', createdAt: 123})
-    socket.emit('newMessage', {
-        from: 'Admin',
-        text: 'Welcome to the chat app',
-        createdAt: new Date().getTime()
-    });
-    socket.broadcast.emit('newMessage', {
-        from: 'Admin',
-        text: 'New user joined'
-    });
-    socket.on('createMessage', function (message) {
-        console.log('createMessage', message);
-        // socket.emit('newMessage', {
-        //   from: 'Admin',
-        //   text: 'Welcome to the chat app',
-        //   createdAt: new Date().getTime()
-        // })
-        // socket.broadcast.emit('newMessage', {
-        //   from: 'Admin',
-        //   text: 'New user joined'
-        // })
-        // socket.broadcast.emit('newMessage', {
-        //     from: message.from,
-        //     text: message.text,
-        //     createdAt: new Date().getTime()
-        // })
-    });
+    console.log('New user connecteds');
+    socket.emit('newMessage', message_1.generateMessage('Admin', 'Welcome to the chat app'));
+    socket.broadcast.emit('newMessage', message_1.generateMessage('Admin', 'New user joined'));
     socket.on('disconnect', function () {
         console.log('User was disconnected');
     });

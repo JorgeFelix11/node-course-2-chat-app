@@ -1,14 +1,13 @@
-let socket = io();
+let socket: SocketIOClient.Socket = io();
 
-socket.on('connect', () => {
+socket.on('connect', (): void => {
   console.log('Connected to server');
-  // socket.emit('createMessage', { from: 'jen', text: 'Message from client'});
 })
 
-socket.on('disconnect', () => {
+socket.on('disconnect', (): void => {
   console.log('Disconnected from server');
 })
 
-socket.on('newMessage', (message: object) => {
+socket.on('newMessage', (message: object): void => {
   console.log('newMessage', message)
 })
