@@ -11,9 +11,16 @@ let server: http.Server = http.createServer(app);
 let io: socketIO.Server = socketIO(server)
 
 io.on('connection', (socket: socketIO.Socket) => {
-  console.log('New user connecteds');
+  console.log('New user connected');
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
+  socket.on('createMessage', (message, callback) => {
+    console.log('createMessage', message);
+
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    callback('This is from the server')
+  })
+  
   socket.on('disconnect', () => {
     console.log('User was disconnected')
   })

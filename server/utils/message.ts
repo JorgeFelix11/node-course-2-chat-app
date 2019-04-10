@@ -14,4 +14,5 @@ let generateMessage: IGenerateMessage = (from: string, text: string) => {
   }
 }
 
+
 export {generateMessage, IResponseMessage};

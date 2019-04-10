@@ -14,9 +14,14 @@ var publicPath = path_1.default.join(__dirname, '../public');
 var server = http_1.default.createServer(app);
 var io = socket_io_1.default(server);
 io.on('connection', function (socket) {
-    console.log('New user connecteds');
+    console.log('New user connected');
     socket.emit('newMessage', message_1.generateMessage('Admin', 'Welcome to the chat app'));
     socket.broadcast.emit('newMessage', message_1.generateMessage('Admin', 'New user joined'));
+    socket.on('createMessage', function (message, callback) {
+        console.log('createMessage', message);
+        io.emit('newMessage', message_1.generateMessage(message.from, message.text));
+        callback('This is from the server');
+    });
     socket.on('disconnect', function () {
         console.log('User was disconnected');
     });
