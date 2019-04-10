@@ -8,3 +8,11 @@ var generateMessage = function (from, text) {
     };
 };
 exports.generateMessage = generateMessage;
+var generateLocationMessage = function (from, latitude, longitude) {
+    return {
+        from: from,
+        url: "https://www.google.com/maps?q=" + latitude + "," + longitude,
+        createdAt: new Date().getTime()
+    };
+};
+exports.generateLocationMessage = generateLocationMessage;

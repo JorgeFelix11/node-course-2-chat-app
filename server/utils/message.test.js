@@ -14,3 +14,14 @@ describe('generateMessage', function () {
         expect_1.default(message).toInclude({ from: from, text: text });
     });
 });
+describe('generateLocationMessage', function () {
+    it('should generate correct location object', function () {
+        var from = 'Deb';
+        var latitude = 15;
+        var longitude = 19;
+        var url = 'https://www.google.com/maps?q=15,19';
+        var message = message_1.generateLocationMessage(from, latitude, longitude);
+        expect_1.default(message.createdAt).toBeA('number');
+        expect_1.default(message).toInclude({ from: from, url: url });
+    });
+});
