@@ -17,13 +17,13 @@ io.on('connection', function (socket) {
     console.log('New user connected');
     socket.emit('newMessage', message_1.generateMessage('Admin', 'Welcome to the chat app'));
     socket.broadcast.emit('newMessage', message_1.generateMessage('Admin', 'New user joined'));
-    socket.on('createLocationMessage', function (coords) {
+    socket.on('createLocationMessage', function (coords, callback) {
         io.emit('newLocationMessage', message_1.generateLocationMessage('Admin', coords.latitude, coords.longitude));
     });
     socket.on('createMessage', function (message, callback) {
         console.log('createMessage', message);
         io.emit('newMessage', message_1.generateMessage(message.from, message.text));
-        callback('This is from the server');
+        callback();
     });
     socket.on('disconnect', function () {
         console.log('User was disconnected');

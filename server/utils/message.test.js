@@ -19,7 +19,7 @@ describe('generateLocationMessage', function () {
         var from = 'Deb';
         var latitude = 15;
         var longitude = 19;
-        var url = 'https://www.google.com/maps?q=15,19';
+        var url = 'https://www.google.com/maps?q=15,192';
         var message = message_1.generateLocationMessage(from, latitude, longitude);
         expect_1.default(message.createdAt).toBeA('number');
         expect_1.default(message).toInclude({ from: from, url: url });
