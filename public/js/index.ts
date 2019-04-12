@@ -2,7 +2,7 @@ import moment from 'moment'
 import '../css/styles.css'
 import jQuery from 'jquery'
 import io from 'socket.io-client'
-
+import Mustache from 'mustache'
 let socket: SocketIOClient.Socket = io();
 
 interface IResponseMessage{
@@ -42,21 +42,35 @@ locationButton.on('click', function(){
   })
 })
 socket.on('newMessage', (message: IResponseMessage): void => {
+  let template = jQuery('#message-template').html();
   let formatedDate = moment(message.createdAt).format('h:mm a')
-  console.log('newMessage', message)
-  var li: JQuery<HTMLElement> = jQuery('<li></li>');
-  li.text(`${message.from} ${formatedDate}: ${message.text}`)
-  jQuery('#messages').append(li)
+  let html = Mustache.render(template, {
+    text: message.text,
+    from: message.from,
+    createdAt: formatedDate
+  })
+  jQuery('#messages').append(html)
+  // console.log('newMessage', message)
+  // var li: JQuery<HTMLElement> = jQuery('<li></li>');
+  // li.text(`${message.from} ${formatedDate}: ${message.text}`)
+  // jQuery('#messages').append(li)
 })
 
 socket.on('newLocationMessage', (position: IPosition) => {
-  let formatedDate = moment(position.createdAt).format('h:mm a')
-  let li: JQuery<HTMLElement> = jQuery('<li></li>');
-  let a: JQuery<HTMLElement> = jQuery(`<a href='${position.url}' target='_blank'>My Current Location</a>`);
-  li.text(`${position.from} ${formatedDate}: `);
-  a.attr('href', position.url);
-  li.append(a)
-  jQuery('#messages').append(li)
+  let formatedDate = moment(position.createdAt).format('h:mm a');
+  let template = jQuery('#location-message-template').html();
+  let html = Mustache.render(template, {
+    from: position.from,
+    url: position.url,
+    createdAt: formatedDate
+  });
+  jQuery('#messages').append(html);
+  // let li: JQuery<HTMLElement> = jQuery('<li></li>');
+  // let a: JQuery<HTMLElement> = jQuery(`<a href='${position.url}' target='_blank'>My Current Location</a>`);
+  // li.text(`${position.from} ${formatedDate}: `);
+  // a.attr('href', position.url);
+  // li.append(a)
+  // jQuery('#messages').append(li)
 })
 
 jQuery('#message-form').on('submit', function(e: _Event){

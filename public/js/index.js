@@ -7,6 +7,7 @@ var moment_1 = __importDefault(require("moment"));
 require("../css/styles.css");
 var jquery_1 = __importDefault(require("jquery"));
 var socket_io_client_1 = __importDefault(require("socket.io-client"));
+var mustache_1 = __importDefault(require("mustache"));
 var socket = socket_io_client_1.default();
 socket.on('connect', function () {
     console.log('Connected to server');
@@ -32,20 +33,34 @@ locationButton.on('click', function () {
     });
 });
 socket.on('newMessage', function (message) {
+    var template = jquery_1.default('#message-template').html();
     var formatedDate = moment_1.default(message.createdAt).format('h:mm a');
-    console.log('newMessage', message);
-    var li = jquery_1.default('<li></li>');
-    li.text(message.from + " " + formatedDate + ": " + message.text);
-    jquery_1.default('#messages').append(li);
+    var html = mustache_1.default.render(template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formatedDate
+    });
+    jquery_1.default('#messages').append(html);
+    // console.log('newMessage', message)
+    // var li: JQuery<HTMLElement> = jQuery('<li></li>');
+    // li.text(`${message.from} ${formatedDate}: ${message.text}`)
+    // jQuery('#messages').append(li)
 });
 socket.on('newLocationMessage', function (position) {
     var formatedDate = moment_1.default(position.createdAt).format('h:mm a');
-    var li = jquery_1.default('<li></li>');
-    var a = jquery_1.default("<a href='" + position.url + "' target='_blank'>My Current Location</a>");
-    li.text(position.from + " " + formatedDate + ": ");
-    a.attr('href', position.url);
-    li.append(a);
-    jquery_1.default('#messages').append(li);
+    var template = jquery_1.default('#location-message-template').html();
+    var html = mustache_1.default.render(template, {
+        from: position.from,
+        url: position.url,
+        createdAt: formatedDate
+    });
+    jquery_1.default('#messages').append(html);
+    // let li: JQuery<HTMLElement> = jQuery('<li></li>');
+    // let a: JQuery<HTMLElement> = jQuery(`<a href='${position.url}' target='_blank'>My Current Location</a>`);
+    // li.text(`${position.from} ${formatedDate}: `);
+    // a.attr('href', position.url);
+    // li.append(a)
+    // jQuery('#messages').append(li)
 });
 jquery_1.default('#message-form').on('submit', function (e) {
     var messageTextbox = jquery_1.default('[name=message]');
