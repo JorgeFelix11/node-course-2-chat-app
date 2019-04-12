@@ -6,7 +6,7 @@ import {generateMessage, generateLocationMessage} from './utils/message';
 
 let app: express.Application = express();
 const port: string | number = process.env.PORT || 3000;
-const publicPath: string = path.join(__dirname, '../public');
+const publicPath: string = path.join(__dirname, '../dist');
 let server: http.Server = http.createServer(app);
 let io: socketIO.Server = socketIO(server)
 

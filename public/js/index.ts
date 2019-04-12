@@ -1,8 +1,14 @@
-let socket: SocketIOClient.Socket = io();
+import moment from 'moment'
+import '../css/styles.css'
+import jQuery from 'jquery'
+import io from 'socket.io-client'
+
+let socket: SocketIOClient.Socket = io('http://localhost:3000' || process.env.PORT);
 
 interface IResponseMessage{
   from: string;
   text: string;
+  createdAt: number;
 }
 interface IPosition{
   from: string;
@@ -36,9 +42,10 @@ locationButton.on('click', function(){
   })
 })
 socket.on('newMessage', (message: IResponseMessage): void => {
+  let formatedDate = moment(message.createdAt).format('h:mm a')
   console.log('newMessage', message)
   var li: JQuery<HTMLElement> = jQuery('<li></li>');
-  li.text(`${message.from}: ${message.text}`)
+  li.text(`${message.from} ${formatedDate}: ${message.text}`)
   jQuery('#messages').append(li)
 })
 

@@ -10,7 +10,7 @@ var http_1 = __importDefault(require("http"));
 var message_1 = require("./utils/message");
 var app = express_1.default();
 var port = process.env.PORT || 3000;
-var publicPath = path_1.default.join(__dirname, '../public');
+var publicPath = path_1.default.join(__dirname, '../dist');
 var server = http_1.default.createServer(app);
 var io = socket_io_1.default(server);
 io.on('connection', function (socket) {
