@@ -50,9 +50,10 @@ socket.on('newMessage', (message: IResponseMessage): void => {
 })
 
 socket.on('newLocationMessage', (position: IPosition) => {
+  let formatedDate = moment(position.createdAt).format('h:mm a')
   let li: JQuery<HTMLElement> = jQuery('<li></li>');
   let a: JQuery<HTMLElement> = jQuery(`<a href='${position.url}' target='_blank'>My Current Location</a>`);
-  li.text(`${position.from}: `);
+  li.text(`${position.from} ${formatedDate}: `);
   a.attr('href', position.url);
   li.append(a)
   jQuery('#messages').append(li)

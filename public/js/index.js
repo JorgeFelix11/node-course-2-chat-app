@@ -39,9 +39,10 @@ socket.on('newMessage', function (message) {
     jquery_1.default('#messages').append(li);
 });
 socket.on('newLocationMessage', function (position) {
+    var formatedDate = moment_1.default(position.createdAt).format('h:mm a');
     var li = jquery_1.default('<li></li>');
     var a = jquery_1.default("<a href='" + position.url + "' target='_blank'>My Current Location</a>");
-    li.text(position.from + ": ");
+    li.text(position.from + " " + formatedDate + ": ");
     a.attr('href', position.url);
     li.append(a);
     jquery_1.default('#messages').append(li);
