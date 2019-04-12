@@ -7,7 +7,7 @@ var moment_1 = __importDefault(require("moment"));
 require("../css/styles.css");
 var jquery_1 = __importDefault(require("jquery"));
 var socket_io_client_1 = __importDefault(require("socket.io-client"));
-var socket = socket_io_client_1.default('http://localhost:3000' || process.env.PORT);
+var socket = socket_io_client_1.default();
 socket.on('connect', function () {
     console.log('Connected to server');
 });

@@ -3,7 +3,7 @@ import '../css/styles.css'
 import jQuery from 'jquery'
 import io from 'socket.io-client'
 
-let socket: SocketIOClient.Socket = io('http://localhost:3000' || process.env.PORT);
+let socket: SocketIOClient.Socket = io();
 
 interface IResponseMessage{
   from: string;
