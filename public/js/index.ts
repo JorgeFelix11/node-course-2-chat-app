@@ -15,6 +15,22 @@ interface IPosition{
   url: string;
   createdAt: number
 }
+
+function scrollToBottom(){
+  //selectors
+  let messages: JQuery<HTMLElement> = jQuery("#messages");
+  let newMessage = messages.children('li:last-child');
+  //Heights
+  let clientHeight: any = messages.prop('clientHeight');
+  let scrollTop = messages.prop('scrollTop');
+  let scrollHeight = messages.prop('scrollHeight');
+  let newMessageHeight = newMessage.innerHeight()
+  let lastMessageHeight = newMessage.prev().innerHeight();
+  if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+    messages.scrollTop(scrollHeight);
+  }
+}
+//para curar la gripe
 socket.on('connect', (): void => {
   console.log('Connected to server');
 })
@@ -54,6 +70,7 @@ socket.on('newMessage', (message: IResponseMessage): void => {
   // var li: JQuery<HTMLElement> = jQuery('<li></li>');
   // li.text(`${message.from} ${formatedDate}: ${message.text}`)
   // jQuery('#messages').append(li)
+  scrollToBottom();
 })
 
 socket.on('newLocationMessage', (position: IPosition) => {
@@ -71,6 +88,7 @@ socket.on('newLocationMessage', (position: IPosition) => {
   // a.attr('href', position.url);
   // li.append(a)
   // jQuery('#messages').append(li)
+  scrollToBottom();
 })
 
 jQuery('#message-form').on('submit', function(e: _Event){

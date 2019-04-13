@@ -9,6 +9,21 @@ var jquery_1 = __importDefault(require("jquery"));
 var socket_io_client_1 = __importDefault(require("socket.io-client"));
 var mustache_1 = __importDefault(require("mustache"));
 var socket = socket_io_client_1.default();
+function scrollToBottom() {
+    //selectors
+    var messages = jquery_1.default("#messages");
+    var newMessage = messages.children('li:last-child');
+    //Heights
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+    if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
+    }
+}
+//para curar la gripe
 socket.on('connect', function () {
     console.log('Connected to server');
 });
@@ -45,6 +60,7 @@ socket.on('newMessage', function (message) {
     // var li: JQuery<HTMLElement> = jQuery('<li></li>');
     // li.text(`${message.from} ${formatedDate}: ${message.text}`)
     // jQuery('#messages').append(li)
+    scrollToBottom();
 });
 socket.on('newLocationMessage', function (position) {
     var formatedDate = moment_1.default(position.createdAt).format('h:mm a');
@@ -61,6 +77,7 @@ socket.on('newLocationMessage', function (position) {
     // a.attr('href', position.url);
     // li.append(a)
     // jQuery('#messages').append(li)
+    scrollToBottom();
 });
 jquery_1.default('#message-form').on('submit', function (e) {
     var messageTextbox = jquery_1.default('[name=message]');
