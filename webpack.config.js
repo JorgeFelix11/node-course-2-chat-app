@@ -2,10 +2,10 @@ const path = require('path');
 var HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './public/js/index.js',
+  entry: './public/js/chat.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'public/js')
   },
   module:{
     rules:[
@@ -18,10 +18,10 @@ module.exports = {
       },
     ]
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: "./public/index.html",
-      filename: "./index.html"
-    }),
-  ]
+  // plugins: [
+  //   new HtmlWebPackPlugin({
+  //     template: "./public/chat.html",
+  //     filename: "./chat.html"
+  //   }),
+  // ]
 };
