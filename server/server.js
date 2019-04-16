@@ -19,11 +19,14 @@ var users = new users_1.Users();
 io.on('connection', function (socket) {
     console.log('New user connected');
     socket.on('createLocationMessage', function (coords, callback) {
-        io.emit('newLocationMessage', message_1.generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+        io.to(user.room).emit('newLocationMessage', message_1.generateLocationMessage(user.name, coords.latitude, coords.longitude));
     });
     socket.on('createMessage', function (message, callback) {
-        console.log('createMessage', message);
-        io.emit('newMessage', message_1.generateMessage(message.from, message.text));
+        var user = users.getUser(socket.id);
+        if (user && validation_1.isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', message_1.generateMessage(user.name, message.text));
+        }
         callback();
     });
     socket.on('join', function (params, callback) {

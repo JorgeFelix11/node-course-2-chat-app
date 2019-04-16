@@ -1,20 +1,20 @@
 interface IResponseMessage{
-  from: string;
-  text: string;
+  from: string | undefined;
+  text: string | undefined;
   createdAt: number
 }
 interface ILocationMessage{
-  from: string;
+  from: string | undefined;
   url: string;
   createdAt: number
 }
 interface IGenerateMessage{
-  (from: string, text: string): IResponseMessage
+  (from: string | undefined, text: string | undefined): IResponseMessage
 }
 interface IGenerateLocationMessage{
-  (from: string, latitude: number, longitude: number): ILocationMessage
+  (from: string | undefined, latitude: number, longitude: number): ILocationMessage
 }
-let generateMessage: IGenerateMessage = (from: string, text: string) => {
+let generateMessage: IGenerateMessage = (from: string | undefined, text: string | undefined) => {
   return {
     from,
     text,
@@ -22,7 +22,7 @@ let generateMessage: IGenerateMessage = (from: string, text: string) => {
   }
 }
 
-let generateLocationMessage: IGenerateLocationMessage = (from: string, latitude, longitude): ILocationMessage => {
+let generateLocationMessage: IGenerateLocationMessage = (from: string | undefined, latitude, longitude): ILocationMessage => {
   return {
     from,
     url: `https://www.google.com/maps?q=${latitude},${longitude}`,
